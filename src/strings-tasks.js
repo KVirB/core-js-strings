@@ -371,9 +371,16 @@ function reverseWords(str) {
  *   invertCase('12345') => '12345'
  */
 function invertCase(str) {
-  return str;
+  let result = '';
+  str.split('').forEach((item) => {
+    if (item === item.toLowerCase()) {
+      result += item.toUpperCase();
+    } else {
+      result += item.toLowerCase();
+    }
+  });
+  return result;
 }
-
 /**
  * Returns the result of string template and given parameters firstName and lastName.
  * Please do not use concatenation, use template string :
@@ -387,8 +394,8 @@ function invertCase(str) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -401,8 +408,9 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  const match = value.match(/Hello, (\w+) (\w+)!/);
+  return `${match[1]} ${match[2]}`;
 }
 
 /**
@@ -416,8 +424,8 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.replace(/[<>]/g, '');
 }
 
 /**
@@ -435,8 +443,8 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -455,9 +463,34 @@ function extractEmails(/* str */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  return str
+    .split('')
+    .map((i) => {
+      if (i.match(/[a-zA-Z]/)) {
+        if (i <= 'M' || (i >= 'a' && i <= 'm')) {
+          return String.fromCharCode(i.charCodeAt(0) + 13);
+        }
+        return String.fromCharCode(i.charCodeAt(0) - 13);
+      }
+      return i;
+    })
+    .join('');
 }
+// const str = 'Why did the chicken cross the road?';
+// const result = [];
+// str.split('').forEach((i) => {
+//   if (i.match(/[a-zA-Z]/)) {
+//     if (i <= 'M' || (i >= 'a' && i <= 'm')) {
+//       result.push(String.fromCharCode(i.charCodeAt(0) + 13));
+//     } else {
+//       result.push(String.fromCharCode(i.charCodeAt(0) - 13));
+//     }
+//   } else {
+//     result.push(i);
+//   }
+// });
+// console.log(result.join(''));
 
 /**
  * Returns playid card id.
@@ -483,8 +516,26 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cards = [
+    'A',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    'J',
+    'Q',
+    'K',
+  ];
+  const suits = ['♣', '♦', '♥', '♠'];
+  const cardIndex = cards.indexOf(value.slice(0, -1));
+  const suitIndex = suits.indexOf(value[value.length - 1]);
+  return suitIndex * cards.length + cardIndex;
 }
 
 module.exports = {
